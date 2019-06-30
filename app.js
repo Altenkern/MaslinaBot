@@ -1,6 +1,11 @@
 const TelegramBot = require("node-telegram-bot-api");
 const fs = require("fs");
 const joke = require("./phrases/joke");
+const spin = require("./Abilities/spin");
+
+function* getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max));
+}
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = "578150225:AAEqor-R_-qxSskCAVXdVbje13UtslhyRlM";
@@ -23,6 +28,7 @@ bot.onText(/\/joke/, msg => {
   bot.sendMessage(msg.chat.id, kek);
 });
 
+//Леха
 bot.onText(/\/echo (.+)/, (msg, match) => {
   const chatId = msg.chat.id;
   const resp = match[1]; // the captured "whatever"
@@ -34,6 +40,7 @@ bot.onText(/\/echo (.+)/, (msg, match) => {
   console.log(msg.text);
 });
 
+//Заходит нн в бар...
 bot.on("message", msg => {
   if (
     msg.text
@@ -52,4 +59,9 @@ bot.on("message", msg => {
     console.log(msg.from.username);
     bot.sendMessage(msg.chat.id, ans);
   }
+});
+bot.onText(/\/spin/, msg => {
+  path = spin.Spin();
+  console.log(path);
+  bot.sendPhoto(msg.chat.id, path);
 });
