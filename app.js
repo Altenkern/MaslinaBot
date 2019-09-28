@@ -111,5 +111,5 @@ bot.onText(/\/debug/, msg => {
 });
 
 bot.onText(/\/chmdeb/, msg => {
-  console.log("yoba");
+  bot.sendMessage(msg.chat.id, "#meme");
 });
