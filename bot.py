@@ -16,6 +16,7 @@ Python 3.12–3.13.
 
 import asyncio
 import os
+
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 from dotenv import load_dotenv
@@ -43,6 +44,13 @@ async def start(message: types.Message):
 async def ping(message: types.Message):
     await message.answer("Понг! 🏓 Бот працює ✔️")
 
+
+# --- Команда /chatinfo ---
+@dp.message(Command("chatinfo"))
+async def chatinfo(message: types.Message):
+    chat = message.chat
+    info = f"Chat ID: {chat.id}\nType: {chat.type}\nTitle: {chat.title if chat.title else 'N/A'}\nUsername: {chat.username if chat.username else 'N/A'}"
+    await message.answer(info)
 
 # --- Ехо-режим ---
 @dp.message()
