@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
-raise SystemExit("Помилка: BOT_TOKEN не знайдено в змінних оточення")
+    raise SystemExit("Помилка: BOT_TOKEN не знайдено в змінних оточення")
 
 
 bot = Bot(token=BOT_TOKEN)
@@ -35,26 +35,26 @@ dp = Dispatcher()
 # --- Команда /start ---
 @dp.message(Command("start"))
 async def start(message: types.Message):
-await message.answer("Привіт! 👋 Я базовий Telegram-бот на aiogram 3. Токен захищено!")
+    await message.answer("Привіт! 👋 Я базовий Telegram-бот на aiogram 3. Токен захищено!")
 
 
 # --- Команда /ping ---
 @dp.message(Command("ping"))
 async def ping(message: types.Message):
-await message.answer("Понг! 🏓 Бот працює ✔️")
+    await message.answer("Понг! 🏓 Бот працює ✔️")
 
 
 # --- Ехо-режим ---
 @dp.message()
 async def echo(message: types.Message):
-await message.answer(f"Ти написав: {message.text}")
+    await message.answer(f"Ти написав: {message.text}")
 
 
 # --- Запуск бота ---
 async def main():
-print("Бот запущено...")
-await dp.start_polling(bot)
+    print("Бот запущено...")
+    await dp.start_polling(bot)
 
 
 if __name__ == "__main__":
-asyncio.run(main())
+    asyncio.run(main())
