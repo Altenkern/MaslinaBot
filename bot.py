@@ -20,7 +20,7 @@ bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 # --- Обробник приватних повідомлень ---
-@dp.message()
+@dp.message(Command("send"))
 async def forward_private(message: types.Message):
     if message.chat.type != "private":
         return
@@ -49,9 +49,9 @@ async def chatinfo(message: types.Message):
     info = f"Chat ID: {chat.id}\nType: {chat.type}\nTitle: {chat.title if chat.title else 'N/A'}\nUsername: {chat.username if chat.username else 'N/A'}"
     await message.answer(info)
 
-@dp.message()
-async def echo(message: types.Message):
-    await message.answer(f"Ти написав: {message.text}")
+#@dp.message()
+#async def echo(message: types.Message):
+#    await message.answer(f"Ти написав: {message.text}")
 
 # --- FastAPI для Render ---
 app = FastAPI()
