@@ -10,11 +10,29 @@ import threading
 # --- Завантажуємо змінні середовища ---
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+TARGET_CHAT_ID = os.getenv("TARGET_CHAT_ID")  # ID чату, куди копіювати повідомлення
 if not BOT_TOKEN:
     raise SystemExit("Помилка: BOT_TOKEN не знайдено в змінних оточення")
+if not TARGET_CHAT_ID:
+    raise SystemExit("Помилка: TARGET_CHAT_ID не знайдено в змінних оточення")
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
+
+# --- Обробник приватних повідомлень ---
+@dp.message()
+async def forward_private(message: types.Message):
+    if message.chat.type != "private":
+        return
+
+    try:
+        # Відправляємо текстове повідомлення в цільовий чат
+        await bot.send_message(chat_id=int(TARGET_CHAT_ID), text=message.text)
+        # Ставимо реакцію користувачу, щоб показати що повідомлення скопійовано
+        await message.reply("✅ Повідомлення надіслано в цільовий чат")
+    except Exception as e:
+        await message.reply(f"❌ Помилка: {e}")
+
 
 # --- Telegram команди ---
 @dp.message(Command("start"))
