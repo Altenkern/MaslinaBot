@@ -19,16 +19,23 @@ if not TARGET_CHAT_ID:
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
-# --- Обробник приватних повідомлень ---
-@dp.message(Command("send"))
+from aiogram import F
+
+# --- Обробник команди /send ---
+@dp.message(Command("send"), F.text)
 async def forward_private(message: types.Message):
     if message.chat.type != "private":
         return
 
+    # Отримуємо текст без команди /send
+    text_to_send = message.text.removeprefix("/send").strip()
+    if not text_to_send:
+        await message.reply("❌ Вкажи повідомлення після /send")
+        return
+
     try:
-        # Відправляємо текстове повідомлення в цільовий чат
-        await bot.send_message(chat_id=int(TARGET_CHAT_ID), text=message.text)
-        # Ставимо реакцію користувачу, щоб показати що повідомлення скопійовано
+        # Відправляємо текст у цільовий чат
+        await bot.send_message(chat_id=int(TARGET_CHAT_ID), text=text_to_send)
         await message.reply("✅ Повідомлення надіслано в цільовий чат")
     except Exception as e:
         await message.reply(f"❌ Помилка: {e}")
